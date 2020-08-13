@@ -1,0 +1,42 @@
+---
+# create namespace avalanche
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logs-generator
+spec:
+  finalizers:
+  - kubernetes
+
+---
+# create deployment avalanche
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: logs-generator
+  namespace: logs-generator
+  labels:
+    name: logs-generator
+spec:
+  selector:
+    matchLabels:
+      app: logs-generator
+  replicas: 1  # tells deployment to run 1 pod matching the template
+  template:
+    metadata:
+      labels:
+        app: logs-generator
+    spec:
+      containers:
+      - name: generator
+        image: localhost:32000/sumologic/kubernetes-tools:local
+        args:
+        - /build/target/release/fluent-generator
+        - --address
+        - stdout
+        - --wordlist
+        - /build/README.md
+        - --random-patterns
+        - '40'
+        - --random
+        - '20'

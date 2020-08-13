@@ -7,7 +7,7 @@ mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 root_dir := $(dir $(abspath $(mkfile_path)/..))
 helm_path = ${root_dir}deploy/helm/sumologic
 k8s_path = ${root_dir}vagrant/k8s
-dashboards_path = 
+dashboards_path = ${root_dir}vagrant/dashboards
 
 # Collector configuration
 cluster = microk8s
